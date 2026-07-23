@@ -1,18 +1,18 @@
-[gd_scene load_steps=3 format=3 uid="uid://dcsqdnugvemyg"]
+[gd_scene format=3 uid="uid://dcsqdnugvemyg"]
 
 [ext_resource type="Texture2D" uid="uid://dkr1gjjpfexwo" path="res://swatter.png" id="1_21t1h"]
-[ext_resource type="Script" path="res://Swatter.gd" id="2_swatter_script"]
+[ext_resource type="Script" uid="uid://c5qbxg48smi4o" path="res://Swatter.gd" id="2_swatter_script"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_h5u18"]
-size = Vector2(45, 55)
+size = Vector2(83, 99)
 
-[node name="Node2D" type="Area2D" unique_id=1499164134]
+[node name="Node2D2" type="Area2D" unique_id=1499164134]
 script = ExtResource("2_swatter_script")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1457608996]
-position = Vector2(0, -60)
+position = Vector2(-0.5, -126.5)
 shape = SubResource("RectangleShape2D_h5u18")
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=1892513378]
-scale = Vector2(0.05, 0.05)
+scale = Vector2(0.1, 0.1)
 texture = ExtResource("1_21t1h")

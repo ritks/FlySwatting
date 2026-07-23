@@ -11,7 +11,7 @@ var score := 0
 @onready var spawn_timer: Timer = $SpawnTimer
 
 func _ready() -> void:
-	Input.mouse_mode = Input.MOUSE_MODE_HIDDEN
+	Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
 	swatter.flies_swatted.connect(_on_flies_swatted)
 	spawn_timer.timeout.connect(_on_spawn_timer_timeout)
 	_update_score_label()
@@ -33,3 +33,11 @@ func _on_flies_swatted(count: int) -> void:
 
 func _update_score_label() -> void:
 	score_label.text = "Score: %d" % score
+
+func _unhandled_input(event: InputEvent) -> void:
+	if event is InputEventKey and event.pressed and not event.echo and event.keycode == KEY_F:
+		var window := get_window()
+		if window.mode == Window.MODE_EXCLUSIVE_FULLSCREEN:
+			window.mode = Window.MODE_WINDOWED
+		else:
+			window.mode = Window.MODE_EXCLUSIVE_FULLSCREEN

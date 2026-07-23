@@ -1,16 +1,16 @@
-[gd_scene load_steps=3 format=3 uid="uid://ba05sblw2pstk"]
+[gd_scene format=3 uid="uid://ba05sblw2pstk"]
 
 [ext_resource type="PackedScene" uid="uid://dcsqdnugvemyg" path="res://Swatter.tscn" id="1_swatter"]
-[ext_resource type="Script" path="res://Main.gd" id="2_main_script"]
+[ext_resource type="Script" uid="uid://bv8wy0ysytguu" path="res://Main.gd" id="2_main_script"]
 
 [node name="Node2D" type="Node2D" unique_id=1227232645]
 script = ExtResource("2_main_script")
 
-[node name="Swatter" parent="." instance=ExtResource("1_swatter")]
+[node name="Swatter" parent="." unique_id=1217006272 instance=ExtResource("1_swatter")]
 
-[node name="CanvasLayer" type="CanvasLayer" parent="."]
+[node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=1558141328]
 
-[node name="ScoreLabel" type="Label" parent="CanvasLayer"]
+[node name="ScoreLabel" type="Label" parent="CanvasLayer" unique_id=803513650]
 offset_left = 20.0
 offset_top = 20.0
 offset_right = 240.0
@@ -18,6 +18,6 @@ offset_bottom = 60.0
 theme_override_font_sizes/font_size = 24
 text = "Score: 0"
 
-[node name="SpawnTimer" type="Timer" parent="."]
-wait_time = 10.0
+[node name="SpawnTimer" type="Timer" parent="." unique_id=1435093058]
+wait_time = 5.0
 autostart = true

@@ -7,10 +7,19 @@ enum State { IDLE, CHARGING, WINDUP }
 const MAX_CHARGE := 4.0
 const MIN_CHARGE := 1.0
 const BAR_SIZE := Vector2(50.0, 8.0)
-const BAR_OFFSET := Vector2(-BAR_SIZE.x / 2.0, -110.0)
+const BAR_MARGIN := 20.0
+
+@onready var sprite: Sprite2D = $Sprite2D
 
 var state: State = State.IDLE
 var charge_amount: float = 0.0
+var bar_offset: Vector2
+
+func _ready() -> void:
+	var sprite_half_height := 0.0
+	if sprite.texture:
+		sprite_half_height = sprite.texture.get_height() * sprite.scale.y / 2.0
+	bar_offset = Vector2(-BAR_SIZE.x / 2.0, -sprite_half_height - BAR_MARGIN)
 
 func _process(delta: float) -> void:
 	global_position = get_global_mouse_position()
@@ -56,6 +65,6 @@ func _draw() -> void:
 	if state == State.IDLE:
 		return
 	var pct := charge_amount / MAX_CHARGE
-	draw_rect(Rect2(BAR_OFFSET, BAR_SIZE), Color(0, 0, 0, 0.5))
-	draw_rect(Rect2(BAR_OFFSET, Vector2(BAR_SIZE.x * pct, BAR_SIZE.y)), Color(0, 1, 0, 1))
-	draw_rect(Rect2(BAR_OFFSET, BAR_SIZE), Color(1, 1, 1, 1), false, 1.0)
+	draw_rect(Rect2(bar_offset, BAR_SIZE), Color(0, 0, 0, 0.5))
+	draw_rect(Rect2(bar_offset, Vector2(BAR_SIZE.x * pct, BAR_SIZE.y)), Color(0, 1, 0, 1))
+	draw_rect(Rect2(bar_offset, BAR_SIZE), Color(1, 1, 1, 1), false, 1.0)

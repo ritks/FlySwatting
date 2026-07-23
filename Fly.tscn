@@ -4,7 +4,7 @@
 [ext_resource type="Script" path="res://Fly.gd" id="2_fly_script"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_h5u18"]
-size = Vector2(20, 20)
+size = Vector2(36, 36)
 
 [node name="Node2D" type="Area2D" unique_id=2116898331]
 script = ExtResource("2_fly_script")
@@ -13,6 +13,6 @@ script = ExtResource("2_fly_script")
 shape = SubResource("RectangleShape2D_h5u18")
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=665270537]
-position = Vector2(0.35000005, 0.35000005)
-scale = Vector2(0.059482764, 0.059482764)
+position = Vector2(0.63000009, 0.63000009)
+scale = Vector2(0.1070689752, 0.1070689752)
 texture = ExtResource("1_k8qhs")
