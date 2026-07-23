@@ -3,6 +3,8 @@
 [ext_resource type="PackedScene" uid="uid://dcsqdnugvemyg" path="res://Swatter.tscn" id="1_swatter"]
 [ext_resource type="Script" uid="uid://bv8wy0ysytguu" path="res://Main.gd" id="2_main_script"]
 [ext_resource type="Texture2D" uid="uid://cburec6kaqf0u" path="res://kitchen.png" id="3_kitchen"]
+[ext_resource type="PackedScene" path="res://SwatterPickup.tscn" id="4_pickup"]
+[ext_resource type="Resource" path="res://SwatterKitFryingPan.tres" id="5_frying_pan_kit"]
 
 [node name="Node2D" type="Node2D" unique_id=1227232645]
 script = ExtResource("2_main_script")
@@ -17,6 +19,10 @@ position_smoothing_enabled = true
 position_smoothing_speed = 5.0
 
 [node name="Swatter" parent="." unique_id=1217006272 instance=ExtResource("1_swatter")]
+
+[node name="FryingPanPickup" parent="." instance=ExtResource("4_pickup")]
+position = Vector2(-960, 540)
+kit = ExtResource("5_frying_pan_kit")
 
 [node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=1558141328]
 

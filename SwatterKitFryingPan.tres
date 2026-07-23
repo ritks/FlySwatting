@@ -1,0 +1,12 @@
+[gd_resource type="Resource" script_class="SwatterKit" load_steps=3 format=3]
+
+[ext_resource type="Script" path="res://SwatterKit.gd" id="1_script"]
+[ext_resource type="Texture2D" uid="uid://bf2nn0yhpiaec" path="res://fryingpan.png" id="2_tex"]
+
+[resource]
+script = ExtResource("1_script")
+texture = ExtResource("2_tex")
+sprite_scale = Vector2(0.12, 0.12)
+collision_size = Vector2(148, 160)
+collision_offset = Vector2(0, -35)
+swat_time = 5.0

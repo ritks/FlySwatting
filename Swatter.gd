@@ -4,23 +4,39 @@ signal flies_swatted(count: int)
 
 enum State { IDLE, COUNTDOWN }
 
-const SWAT_TIME := 2.0
 const BAR_SIZE := Vector2(50.0, 8.0)
 const BAR_MARGIN := 20.0
 const TIMER_LABEL_SIZE := Vector2(90.0, 30.0)
 const FOLLOW_SPEED := 10.0
+
+@export var default_kit: SwatterKit
 
 @onready var sprite: Sprite2D = $Sprite2D
 @onready var timer_label: Label = $TimerLabel
 @onready var collision_shape: CollisionShape2D = $CollisionShape2D
 
 var state: State = State.IDLE
+var kit: SwatterKit
 var time_left: float = 0.0
 var bar_offset: Vector2
 var swat_center_offset: Vector2
 
 func _ready() -> void:
 	add_to_group("swatter")
+	set_kit(default_kit)
+
+func set_kit(new_kit: SwatterKit) -> void:
+	if new_kit == null or state != State.IDLE:
+		return
+	kit = new_kit
+
+	sprite.texture = kit.texture
+	sprite.scale = kit.sprite_scale
+
+	var shape := collision_shape.shape as RectangleShape2D
+	shape.size = kit.collision_size
+	collision_shape.position = kit.collision_offset
+	swat_center_offset = kit.collision_offset
 
 	var sprite_half_height := 0.0
 	if sprite.texture:
@@ -30,8 +46,6 @@ func _ready() -> void:
 		BAR_SIZE.x / 2.0 - TIMER_LABEL_SIZE.x / 2.0,
 		-TIMER_LABEL_SIZE.y - 6.0
 	)
-
-	swat_center_offset = collision_shape.position
 
 func _process(delta: float) -> void:
 	var target := get_global_mouse_position() - swat_center_offset
@@ -47,12 +61,28 @@ func _process(delta: float) -> void:
 	queue_redraw()
 
 func _unhandled_input(event: InputEvent) -> void:
-	if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT:
-		if event.pressed and state == State.IDLE:
+	if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT and event.pressed:
+		var pickup := _pickup_at_mouse()
+		if pickup:
+			set_kit(pickup.kit)
+			return
+
+		if state == State.IDLE:
 			state = State.COUNTDOWN
-			time_left = SWAT_TIME
+			time_left = kit.swat_time
 			timer_label.text = "%.2f" % time_left
 			timer_label.visible = true
+
+func _pickup_at_mouse() -> Area2D:
+	var params := PhysicsPointQueryParameters2D.new()
+	params.position = get_global_mouse_position()
+	params.collide_with_areas = true
+	params.collide_with_bodies = false
+	for result in get_world_2d().direct_space_state.intersect_point(params, 32):
+		var collider: Object = result["collider"]
+		if collider is Area2D and collider.is_in_group("swatter_pickup"):
+			return collider
+	return null
 
 func _do_swat() -> void:
 	state = State.IDLE
@@ -73,7 +103,7 @@ func _do_swat() -> void:
 func _draw() -> void:
 	if state == State.IDLE:
 		return
-	var pct := time_left / SWAT_TIME
+	var pct := time_left / kit.swat_time
 	draw_rect(Rect2(bar_offset, BAR_SIZE), Color(0, 0, 0, 0.5))
 	draw_rect(Rect2(bar_offset, Vector2(BAR_SIZE.x * pct, BAR_SIZE.y)), Color(1, 0.3, 0.2, 1))
 	draw_rect(Rect2(bar_offset, BAR_SIZE), Color(1, 1, 1, 1), false, 1.0)
