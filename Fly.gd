@@ -5,6 +5,8 @@ const MAX_SPEED := 100.0
 const JITTER_MIN := 0.3
 const JITTER_MAX := 0.8
 const EDGE_MARGIN := 10.0
+const LEVEL_MIN_X := -1920.0
+const LEVEL_MAX_X := 3840.0
 
 var velocity := Vector2.ZERO
 var jitter_timer := 0.0
@@ -21,7 +23,7 @@ func _process(delta: float) -> void:
 	position += velocity * delta
 
 	var vp := get_viewport_rect().size
-	position.x = clamp(position.x, EDGE_MARGIN, vp.x - EDGE_MARGIN)
+	position.x = clamp(position.x, LEVEL_MIN_X + EDGE_MARGIN, LEVEL_MAX_X - EDGE_MARGIN)
 	position.y = clamp(position.y, EDGE_MARGIN, vp.y - EDGE_MARGIN)
 
 func _pick_new_velocity() -> void:

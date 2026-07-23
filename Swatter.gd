@@ -2,18 +2,19 @@ extends Area2D
 
 signal flies_swatted(count: int)
 
-enum State { IDLE, CHARGING, WINDUP }
+enum State { IDLE, COUNTDOWN }
 
-const MAX_CHARGE := 4.0
-const MIN_CHARGE := 1.0
+const SWAT_TIME := 3.0
 const BAR_SIZE := Vector2(50.0, 8.0)
 const BAR_MARGIN := 20.0
+const TIMER_LABEL_SIZE := Vector2(90.0, 30.0)
 const FOLLOW_SPEED := 10.0
 
 @onready var sprite: Sprite2D = $Sprite2D
+@onready var timer_label: Label = $TimerLabel
 
 var state: State = State.IDLE
-var charge_amount: float = 0.0
+var time_left: float = 0.0
 var bar_offset: Vector2
 
 func _ready() -> void:
@@ -21,35 +22,34 @@ func _ready() -> void:
 	if sprite.texture:
 		sprite_half_height = sprite.texture.get_height() * sprite.scale.y / 2.0
 	bar_offset = Vector2(-BAR_SIZE.x / 2.0, -sprite_half_height - BAR_MARGIN)
+	timer_label.position = bar_offset + Vector2(
+		BAR_SIZE.x / 2.0 - TIMER_LABEL_SIZE.x / 2.0,
+		-TIMER_LABEL_SIZE.y - 6.0
+	)
 
 func _process(delta: float) -> void:
 	var weight := 1.0 - exp(-FOLLOW_SPEED * delta)
 	global_position = global_position.lerp(get_global_mouse_position(), weight)
 
-	match state:
-		State.CHARGING:
-			charge_amount = min(charge_amount + delta, MAX_CHARGE)
-		State.WINDUP:
-			charge_amount = max(charge_amount - delta, 0.0)
-			if charge_amount <= 0.0:
-				_do_swat()
+	if state == State.COUNTDOWN:
+		time_left = max(time_left - delta, 0.0)
+		timer_label.text = "%.2f" % time_left
+		if time_left <= 0.0:
+			_do_swat()
 
 	queue_redraw()
 
 func _unhandled_input(event: InputEvent) -> void:
 	if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT:
 		if event.pressed and state == State.IDLE:
-			state = State.CHARGING
-			charge_amount = 0.0
-		elif not event.pressed and state == State.CHARGING:
-			if charge_amount >= MIN_CHARGE:
-				state = State.WINDUP
-			else:
-				state = State.IDLE
-				charge_amount = 0.0
+			state = State.COUNTDOWN
+			time_left = SWAT_TIME
+			timer_label.text = "%.2f" % time_left
+			timer_label.visible = true
 
 func _do_swat() -> void:
 	state = State.IDLE
+	timer_label.visible = false
 
 	modulate = Color(0.3, 1.0, 0.3)
 	var tw := create_tween()
@@ -66,7 +66,7 @@ func _do_swat() -> void:
 func _draw() -> void:
 	if state == State.IDLE:
 		return
-	var pct := charge_amount / MAX_CHARGE
+	var pct := time_left / SWAT_TIME
 	draw_rect(Rect2(bar_offset, BAR_SIZE), Color(0, 0, 0, 0.5))
-	draw_rect(Rect2(bar_offset, Vector2(BAR_SIZE.x * pct, BAR_SIZE.y)), Color(0, 1, 0, 1))
+	draw_rect(Rect2(bar_offset, Vector2(BAR_SIZE.x * pct, BAR_SIZE.y)), Color(1, 0.3, 0.2, 1))
 	draw_rect(Rect2(bar_offset, BAR_SIZE), Color(1, 1, 1, 1), false, 1.0)
