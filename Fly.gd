@@ -1,12 +1,13 @@
 extends Area2D
 
-const MIN_SPEED := 40.0
-const MAX_SPEED := 100.0
-const JITTER_MIN := 0.3
-const JITTER_MAX := 0.8
+const MIN_SPEED := 90.0
+const MAX_SPEED := 220.0
+const JITTER_MIN := 0.2
+const JITTER_MAX := 0.5
 const EDGE_MARGIN := 10.0
 const LEVEL_MIN_X := -1920.0
 const LEVEL_MAX_X := 3840.0
+const HOVER_SPEED_MULT := 2.5
 
 var velocity := Vector2.ZERO
 var jitter_timer := 0.0
@@ -20,7 +21,13 @@ func _process(delta: float) -> void:
 	if jitter_timer <= 0.0:
 		_pick_new_velocity()
 
-	position += velocity * delta
+	var speed_mult := 1.0
+	for area in get_overlapping_areas():
+		if area.is_in_group("swatter"):
+			speed_mult = HOVER_SPEED_MULT
+			break
+
+	position += velocity * speed_mult * delta
 
 	var vp := get_viewport_rect().size
 	position.x = clamp(position.x, LEVEL_MIN_X + EDGE_MARGIN, LEVEL_MAX_X - EDGE_MARGIN)

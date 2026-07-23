@@ -6,7 +6,7 @@ const SPAWN_MARGIN := 20.0
 const LEVEL_MIN_X := -1920.0
 const LEVEL_MAX_X := 3840.0
 const EDGE_PAN_ZONE := 0.1
-const PAN_SPEED := 600.0
+const PAN_SPEED := 800.0
 
 var score := 0
 

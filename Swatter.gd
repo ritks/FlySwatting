@@ -4,7 +4,7 @@ signal flies_swatted(count: int)
 
 enum State { IDLE, COUNTDOWN }
 
-const SWAT_TIME := 3.0
+const SWAT_TIME := 2.0
 const BAR_SIZE := Vector2(50.0, 8.0)
 const BAR_MARGIN := 20.0
 const TIMER_LABEL_SIZE := Vector2(90.0, 30.0)
@@ -12,12 +12,16 @@ const FOLLOW_SPEED := 10.0
 
 @onready var sprite: Sprite2D = $Sprite2D
 @onready var timer_label: Label = $TimerLabel
+@onready var collision_shape: CollisionShape2D = $CollisionShape2D
 
 var state: State = State.IDLE
 var time_left: float = 0.0
 var bar_offset: Vector2
+var swat_center_offset: Vector2
 
 func _ready() -> void:
+	add_to_group("swatter")
+
 	var sprite_half_height := 0.0
 	if sprite.texture:
 		sprite_half_height = sprite.texture.get_height() * sprite.scale.y / 2.0
@@ -27,9 +31,12 @@ func _ready() -> void:
 		-TIMER_LABEL_SIZE.y - 6.0
 	)
 
+	swat_center_offset = collision_shape.position
+
 func _process(delta: float) -> void:
+	var target := get_global_mouse_position() - swat_center_offset
 	var weight := 1.0 - exp(-FOLLOW_SPEED * delta)
-	global_position = global_position.lerp(get_global_mouse_position(), weight)
+	global_position = global_position.lerp(target, weight)
 
 	if state == State.COUNTDOWN:
 		time_left = max(time_left - delta, 0.0)
