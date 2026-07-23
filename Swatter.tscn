@@ -4,15 +4,15 @@
 [ext_resource type="Script" uid="uid://c5qbxg48smi4o" path="res://Swatter.gd" id="2_swatter_script"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_h5u18"]
-size = Vector2(83, 99)
+size = Vector2(143, 173)
 
 [node name="Node2D2" type="Area2D" unique_id=1499164134]
 script = ExtResource("2_swatter_script")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1457608996]
-position = Vector2(-0.5, -126.5)
+position = Vector2(0, -212)
 shape = SubResource("RectangleShape2D_h5u18")
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=1892513378]
-scale = Vector2(0.1, 0.1)
+scale = Vector2(0.17, 0.17)
 texture = ExtResource("1_21t1h")

@@ -8,6 +8,7 @@ const MAX_CHARGE := 4.0
 const MIN_CHARGE := 1.0
 const BAR_SIZE := Vector2(50.0, 8.0)
 const BAR_MARGIN := 20.0
+const FOLLOW_SPEED := 10.0
 
 @onready var sprite: Sprite2D = $Sprite2D
 
@@ -22,7 +23,8 @@ func _ready() -> void:
 	bar_offset = Vector2(-BAR_SIZE.x / 2.0, -sprite_half_height - BAR_MARGIN)
 
 func _process(delta: float) -> void:
-	global_position = get_global_mouse_position()
+	var weight := 1.0 - exp(-FOLLOW_SPEED * delta)
+	global_position = global_position.lerp(get_global_mouse_position(), weight)
 
 	match state:
 		State.CHARGING:

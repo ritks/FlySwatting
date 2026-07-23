@@ -2,9 +2,22 @@
 
 [ext_resource type="PackedScene" uid="uid://dcsqdnugvemyg" path="res://Swatter.tscn" id="1_swatter"]
 [ext_resource type="Script" uid="uid://bv8wy0ysytguu" path="res://Main.gd" id="2_main_script"]
+[ext_resource type="Texture2D" uid="uid://cburec6kaqf0u" path="res://kitchen.png" id="3_kitchen"]
 
 [node name="Node2D" type="Node2D" unique_id=1227232645]
 script = ExtResource("2_main_script")
+
+[node name="BackgroundLayer" type="CanvasLayer" parent="."]
+layer = -1
+
+[node name="Background" type="TextureRect" parent="BackgroundLayer"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("3_kitchen")
+expand_mode = 1
+stretch_mode = 6
 
 [node name="Swatter" parent="." unique_id=1217006272 instance=ExtResource("1_swatter")]
 
