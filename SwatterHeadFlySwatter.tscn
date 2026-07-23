@@ -1,0 +1,20 @@
+[gd_scene load_steps=5 format=3]
+
+[ext_resource type="Script" path="res://SwatterHead.gd" id="1_script"]
+[ext_resource type="Texture2D" uid="uid://dkr1gjjpfexwo" path="res://swatter.png" id="2_tex"]
+[ext_resource type="Resource" path="res://SwatterKitFlySwatter.tres" id="3_kit"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_fly_swatter"]
+size = Vector2(143, 173)
+
+[node name="SwatterHeadFlySwatter" type="Area2D"]
+script = ExtResource("1_script")
+kit = ExtResource("3_kit")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+scale = Vector2(0.17, 0.17)
+texture = ExtResource("2_tex")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, -212)
+shape = SubResource("RectangleShape2D_fly_swatter")

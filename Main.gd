@@ -16,7 +16,8 @@ var score := 0
 @onready var camera: Camera2D = $Camera2D
 
 func _ready() -> void:
-	Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
+	# Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
+	Input.mouse_mode = Input.MOUSE_MODE_HIDDEN
 	swatter.flies_swatted.connect(_on_flies_swatted)
 	spawn_timer.timeout.connect(_on_spawn_timer_timeout)
 	_update_score_label()

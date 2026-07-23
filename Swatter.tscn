@@ -1,23 +1,13 @@
 [gd_scene format=3 uid="uid://dcsqdnugvemyg"]
 
-[ext_resource type="Texture2D" uid="uid://dkr1gjjpfexwo" path="res://swatter.png" id="1_21t1h"]
-[ext_resource type="Script" uid="uid://c5qbxg48smi4o" path="res://Swatter.gd" id="2_swatter_script"]
-[ext_resource type="Resource" path="res://SwatterKitFlySwatter.tres" id="3_default_kit"]
-
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_h5u18"]
-size = Vector2(143, 173)
+[ext_resource type="Script" uid="uid://c5qbxg48smi4o" path="res://Swatter.gd" id="1_swatter_script"]
+[ext_resource type="PackedScene" path="res://SwatterHeadFlySwatter.tscn" id="2_head_fly_swatter"]
 
 [node name="Node2D2" type="Area2D" unique_id=1499164134]
-script = ExtResource("2_swatter_script")
-default_kit = ExtResource("3_default_kit")
+script = ExtResource("1_swatter_script")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1457608996]
-position = Vector2(0, -212)
-shape = SubResource("RectangleShape2D_h5u18")
-
-[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1892513378]
-scale = Vector2(0.17, 0.17)
-texture = ExtResource("1_21t1h")
+[node name="HeadFlySwatter" parent="." instance=ExtResource("2_head_fly_swatter")]
+groups=["swatter"]
 
 [node name="TimerLabel" type="Label" parent="."]
 custom_minimum_size = Vector2(90, 30)

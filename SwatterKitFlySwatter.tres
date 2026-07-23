@@ -1,12 +1,6 @@
-[gd_resource type="Resource" script_class="SwatterKit" load_steps=3 format=3]
+[gd_resource type="Resource" script_class="SwatterKit" format=3 uid="uid://dlcbkx7w2o4n4"]
 
-[ext_resource type="Script" path="res://SwatterKit.gd" id="1_script"]
-[ext_resource type="Texture2D" uid="uid://dkr1gjjpfexwo" path="res://swatter.png" id="2_tex"]
+[ext_resource type="Script" uid="uid://dmu45f4gvuub1" path="res://SwatterKit.gd" id="1_script"]
 
 [resource]
 script = ExtResource("1_script")
-texture = ExtResource("2_tex")
-sprite_scale = Vector2(0.17, 0.17)
-collision_size = Vector2(143, 173)
-collision_offset = Vector2(0, -212)
-swat_time = 2.0
